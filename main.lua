@@ -64,7 +64,7 @@ function love.draw()
 		love.graphics.setColor(255, 0, 0, k[4].value)
 			love.graphics.circle('fill', k[1], k[2], 10)
 		love.graphics.setColor(255, 255, 230, k[4].value)
-			roundedRectangle(k[1] + 15, k[2] - 16, 64, 32, 6)
+			roundedRectangle(k[1] + 15, k[2] - 16, 64, 32, 10, {2, 2, 2, k[4].value})
 		love.graphics.setColor(0, 0, 0, k[4].value)
 			love.graphics.print(k[3], k[1] + 21, k[2] - 10)
 		love.graphics.setColor(255, 255, 255, 255)
@@ -73,8 +73,11 @@ function love.draw()
 	love.graphics.pop()
 
 	if debug then
-		love.graphics.print(math.floor(camx.value - love.graphics.getWidth() / 2 + love.mouse.getX()))
-		love.graphics.print(math.floor(camy.value - love.graphics.getHeight() / 4 + love.mouse.getY()), 0, 20)
+		roundedRectangle(4, 4, 56, 46, 10, {2, 2, 2, 255}, 0, 0)
+		love.graphics.setColor(0, 0, 0, 255)
+		love.graphics.print(math.floor(camx.value - love.graphics.getWidth() / 2 + love.mouse.getX()), 6, 6)
+		love.graphics.print(math.floor(camy.value - love.graphics.getHeight() / 4 + love.mouse.getY()), 6, 26)
+		love.graphics.setColor(255, 255, 255, 255)
 	end
 end	
 
@@ -130,19 +133,41 @@ function renderPathTo(path, tf)
 	end
 end
 
-function roundedRectangle(x, y, w, h, r)
-	local camXOff = camx.value - love.graphics.getWidth() / 2
-	local camYOff = camy.value - love.graphics.getHeight() / 4
+function roundedRectangle(x, y, w, h, r, border, xoff, yoff)
+	local camXOff = xoff or camx.value - love.graphics.getWidth() / 2
+	local camYOff = yoff or camy.value - love.graphics.getHeight() / 4
+	local color = {love.graphics.getColor()}
+	local lineSize = love.graphics.getLineWidth()
+	love.graphics.setLineWidth(1)
 	love.graphics.rectangle('fill', x + r, y, w - 2 * r, h)
 	love.graphics.rectangle('fill', x, y + r, r, h - 2 * r)
 	love.graphics.rectangle('fill', x + w - r, y + r, r, h - 2 * r)
+	love.graphics.setColor(border)
+	love.graphics.line(x, y + r, x, y + h - r)
+	love.graphics.line(x + r, y, x + w - r, y)
+	love.graphics.line(x + w, y + r, x + w, y + h - r)
+	love.graphics.line(x + r, y + h, x + w - r, y + h)
+	love.graphics.setColor(color)
 	love.graphics.setScissor(x - camXOff, y - camYOff, r, r)
 		love.graphics.circle('fill', x + r, y + r, r)
+		love.graphics.setColor(border)
+		love.graphics.circle('line', x + r, y + r, r)
+		love.graphics.setColor(color)
 	love.graphics.setScissor(x + w - r - camXOff, y - camYOff, r, r)
 		love.graphics.circle('fill', x + w - r, y + r, r)
+		love.graphics.setColor(border)
+		love.graphics.circle('line', x + w - r, y + r, r)
+		love.graphics.setColor(color)
 	love.graphics.setScissor(x - camXOff, y + h - r - camYOff, r, r)
 		love.graphics.circle('fill', x + r, y + h - r, r)
+		love.graphics.setColor(border)
+		love.graphics.circle('line', x + r, y + h - r, r)
+		love.graphics.setColor(color)
 	love.graphics.setScissor(x + w - r - camXOff, y + h - r - camYOff, r, r)
 		love.graphics.circle('fill', x + w - r, y + h - r, r)
+		love.graphics.setColor(border)
+		love.graphics.circle('line', x + w - r, y + h - r, r)
+		love.graphics.setColor(color)
 	love.graphics.setScissor()
+	love.graphics.setLineWidth(lineSize)
 end
