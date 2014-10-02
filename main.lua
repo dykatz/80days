@@ -1,5 +1,4 @@
 require 'tween'
-local newCurve = function(...) return love.math.newBezierCurve(...):render() end
 
 function love.load()
 	love.graphics.setFont(love.graphics.newFont(20))
@@ -37,8 +36,7 @@ function love.load()
 end
 
 function love.update(dt)
-	camx:update(dt)
-	camy:update(dt)
+	updateTweens(dt)
 end
 
 function love.draw()
@@ -64,7 +62,7 @@ function love.draw()
 		elseif i == current then
 			-- line that we are currently on
 			--love.graphics.line(places[previous][1], places[previous][2], camx.value, camy.value)
-			renderPathTo(paths[previous], 0, current == previous and camx:getPercentage() or 1 - camx:getPercentage())
+			renderPathTo(paths[previous], current == previous and camx:getPercentage() or 1 - camx:getPercentage())
 		end
 
 		if current == i then
@@ -74,6 +72,7 @@ function love.draw()
 	end
 
 	love.graphics.pop()
+
 	if debug then
 		love.graphics.print(math.floor(camx.value - love.graphics.getWidth() / 2 + love.mouse.getX()))
 		love.graphics.print(math.floor(camy.value - love.graphics.getHeight() / 4 + love.mouse.getY()), 0, 20)
@@ -106,7 +105,11 @@ function love.keypressed(k)
 	end
 end
 
-function renderPathTo(path, t0, tf)
+function newCurve(...)
+	return love.math.newBezierCurve(...):render()
+end
+
+function renderPathTo(path, tf)
 	accuracy = accuracy or 5
 	local length = #path / 2
 	local lastInt = math.floor(tf * length) * 2
@@ -122,4 +125,19 @@ function renderPathTo(path, t0, tf)
 			love.graphics.line(newPath)
 		end
 	end
+end
+
+function roundedRectangle(x, y, w, h, r)
+	love.graphics.rectangle('fill', x + r, y, w - 2 * r, h)
+	love.graphics.rectangle('fill', x, y + r, r, h - 2 * r)
+	love.graphics.rectangle('fill', x + w - r, y + r, r, h - 2 * r)
+	love.graphics.setScissor(x, y, r, r)
+		love.graphics.circle('fill', x + r, y + r, r)
+	love.graphics.setScissor(x + w - r, y, r, r)
+		love.graphics.circle('fill', x + w - r, y + r, r)
+	love.graphics.setScissor(x, y + h - r, r, r)
+		love.graphics.circle('fill', x + r, y + h - r, r)
+	love.graphics.setScissor(x + w - r, y + h - r, r, r)
+		love.graphics.circle('fill', x + w - r, y + h - r, r)
+	love.graphics.setScissor()
 end

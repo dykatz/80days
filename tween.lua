@@ -6,6 +6,8 @@ setmetatable(tween, {__call = function(self, ...)
 	return o
 end})
 
+local tweens = {}
+
 function tween:init(value, time, func)
 	self.moving = false
 	self.value = value
@@ -13,6 +15,8 @@ function tween:init(value, time, func)
 	self.delta = 0
 	self.time = time
 	self.func = func
+
+	tweens[self] = true
 end
 
 function tween:start(destination)
@@ -36,4 +40,10 @@ end
 
 function tween:getPercentage()
 	return (self.destination - self.value) / self.delta
+end
+
+function updateTweens(dt)
+	for i in pairs(tweens) do
+		i:update(dt)
+	end
 end
