@@ -12,15 +12,15 @@ function love.load()
 	camy = tween(215, 0.4)
 
 	places = {
-		{1020,	215,	'London',			tween(0, 0.4)},
-		{1210,	340,	'Suez',				tween(0, 0.4)},
-		{1440,	400,	'Bombay',			tween(0, 0.4)},
-		{1520,	375,	'Calcutta',			tween(0, 0.4)},
+		{1020,	215,	'London',		tween(255, 0.4)},
+		{1210,	340,	'Suez',			tween(0, 0.4)},
+		{1440,	400,	'Bombay',		tween(0, 0.4)},
+		{1520,	375,	'Calcutta',		tween(0, 0.4)},
 		{1670,	385,	'Hong Kong',		tween(0, 0.4)},
-		{1820,	310,	'Yokohama',			tween(0, 0.4)},
+		{1820,	310,	'Yokohama',		tween(0, 0.4)},
 		{2375,	300,	'San Fransisco',	tween(0, 0.4)},
-		{2650,	280,	'New York',			tween(0, 0.4)},
-		{3070,	215,	'London',			tween(0, 0.4)}
+		{2650,	280,	'New York',		tween(0, 0.4)},
+		{3070,	215,	'London',		tween(0, 0.4)}
 	}
 
 	paths = {
@@ -43,7 +43,6 @@ function love.draw()
 	love.graphics.push()
 	love.graphics.translate(love.window.getWidth() / 2 - camx.value, love.window.getHeight() / 4 - camy.value)
 	
-	love.graphics.setColor(255, 255, 255, 255)
 	love.graphics.draw(map)
 	love.graphics.draw(map, map:getWidth())
 
@@ -53,7 +52,6 @@ function love.draw()
 		end
 
 		love.graphics.setColor(255, 0, 0, 127)
-		love.graphics.circle('fill', k[1], k[2], 10)
 
 		if i < previous then
 			-- lines that we are not currently on
@@ -63,10 +61,13 @@ function love.draw()
 			renderPathTo(paths[previous], current == previous and camx:getPercentage() or 1 - camx:getPercentage())
 		end
 
-		if current == i then
-			love.graphics.setColor(255, 0, 0, 255)
+		love.graphics.setColor(255, 0, 0, k[4].value)
+			love.graphics.circle('fill', k[1], k[2], 10)
+		love.graphics.setColor(255, 255, 255, k[4].value)
+			roundedRectangle(k[1], k[2] - 16, 64, 32, 5)
+		love.graphics.setColor(0, 0, 0, k[4].value)
 			love.graphics.print(k[3], k[1] + 15, k[2] - 10)
-		end
+		love.graphics.setColor(255, 255, 255, 255)
 	end
 
 	love.graphics.pop()
@@ -80,17 +81,21 @@ end
 function love.keypressed(k)
 	if not camx.moving then
 		if k == 'left' and current > 1 then
+			places[current][4]:start(0)
 			current = current - 1
 			previous = current
 			camx:start(places[current][1])
 			camy:start(places[current][2])
+			places[current][4]:start(255)
 		end
 
 		if k == 'right' and current < #places then
+			places[current][4]:start(0)
 			previous = current
 			current = current + 1
 			camx:start(places[current][1])
 			camy:start(places[current][2])
+			places[current][4]:start(255)
 		end
 	end
 
