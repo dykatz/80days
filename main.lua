@@ -60,12 +60,8 @@ function love.draw()
 			love.graphics.line(paths[i])
 		elseif i == current then
 			-- line that we are currently on
-<<<<<<< HEAD
 			--love.graphics.line(places[previous][1], places[previous][2], camx.value, camy.value)
 			renderPathTo(paths[previous], current == previous and camx:getPercentage() or 1 - camx:getPercentage())
-=======
-			renderPathTo(paths[previous], 0, current == previous and camx:getPercentage() or 1 - camx:getPercentage())
->>>>>>> 847d3c335ed529e6da07e085d3dee26fcb690fe3
 		end
 
 		if current == i then
