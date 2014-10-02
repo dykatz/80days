@@ -63,10 +63,10 @@ function love.draw()
 
 		love.graphics.setColor(255, 0, 0, k[4].value)
 			love.graphics.circle('fill', k[1], k[2], 10)
-		love.graphics.setColor(255, 255, 255, k[4].value)
-			roundedRectangle(k[1], k[2] - 16, 64, 32, 5)
+		love.graphics.setColor(255, 255, 230, k[4].value)
+			roundedRectangle(k[1] + 15, k[2] - 16, 64, 32, 6)
 		love.graphics.setColor(0, 0, 0, k[4].value)
-			love.graphics.print(k[3], k[1] + 15, k[2] - 10)
+			love.graphics.print(k[3], k[1] + 21, k[2] - 10)
 		love.graphics.setColor(255, 255, 255, 255)
 	end
 
@@ -131,16 +131,18 @@ function renderPathTo(path, tf)
 end
 
 function roundedRectangle(x, y, w, h, r)
+	local camXOff = camx.value - love.graphics.getWidth() / 2
+	local camYOff = camy.value - love.graphics.getHeight() / 4
 	love.graphics.rectangle('fill', x + r, y, w - 2 * r, h)
 	love.graphics.rectangle('fill', x, y + r, r, h - 2 * r)
 	love.graphics.rectangle('fill', x + w - r, y + r, r, h - 2 * r)
-	love.graphics.setScissor(x, y, r, r)
+	love.graphics.setScissor(x - camXOff, y - camYOff, r, r)
 		love.graphics.circle('fill', x + r, y + r, r)
-	love.graphics.setScissor(x + w - r, y, r, r)
+	love.graphics.setScissor(x + w - r - camXOff, y - camYOff, r, r)
 		love.graphics.circle('fill', x + w - r, y + r, r)
-	love.graphics.setScissor(x, y + h - r, r, r)
+	love.graphics.setScissor(x - camXOff, y + h - r - camYOff, r, r)
 		love.graphics.circle('fill', x + r, y + h - r, r)
-	love.graphics.setScissor(x + w - r, y + h - r, r, r)
+	love.graphics.setScissor(x + w - r - camXOff, y + h - r - camYOff, r, r)
 		love.graphics.circle('fill', x + w - r, y + h - r, r)
 	love.graphics.setScissor()
 end
