@@ -12,15 +12,15 @@ function love.load()
 	camy = tween(215, 0.4)
 
 	places = {
-		{1020, 215, 'London'},
-		{1210, 340, 'Suez'},
-		{1440, 400, 'Bombay'},
-		{1520, 375, 'Calcutta'},
-		{1670, 385, 'Hong Kong'},
-		{1820, 310, 'Yokohama'},
-		{2375, 300, 'San Fransisco'},
-		{2650, 280, 'New York'},
-		{3070, 215, 'London'}
+		{1020,	215,	'London',			tween(0, 0.4)},
+		{1210,	340,	'Suez',				tween(0, 0.4)},
+		{1440,	400,	'Bombay',			tween(0, 0.4)},
+		{1520,	375,	'Calcutta',			tween(0, 0.4)},
+		{1670,	385,	'Hong Kong',		tween(0, 0.4)},
+		{1820,	310,	'Yokohama',			tween(0, 0.4)},
+		{2375,	300,	'San Fransisco',	tween(0, 0.4)},
+		{2650,	280,	'New York',			tween(0, 0.4)},
+		{3070,	215,	'London',			tween(0, 0.4)}
 	}
 
 	paths = {
@@ -60,7 +60,6 @@ function love.draw()
 			love.graphics.line(paths[i])
 		elseif i == current then
 			-- line that we are currently on
-			--love.graphics.line(places[previous][1], places[previous][2], camx.value, camy.value)
 			renderPathTo(paths[previous], current == previous and camx:getPercentage() or 1 - camx:getPercentage())
 		end
 
