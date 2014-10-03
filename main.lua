@@ -2,7 +2,6 @@ require 'tween'
 
 function love.load()
 	love.graphics.setFont(love.graphics.newFont(20))
-	love.graphics.setLineWidth(3)
 	
 	map = love.graphics.newImage 'map.png'
 	current = 1
@@ -12,7 +11,7 @@ function love.load()
 	camy = tween(215, 0.4)
 
 	places = {
-		{1020,	215,	'London',		tween(255, 0.4)},
+		{1020,	215,	'London',		tween(1, 0.4)},
 		{1210,	340,	'Suez',			tween(0, 0.4)},
 		{1440,	400,	'Bombay',		tween(0, 0.4)},
 		{1520,	375,	'Calcutta',		tween(0, 0.4)},
@@ -52,6 +51,7 @@ function love.draw()
 		end
 
 		love.graphics.setColor(255, 0, 0, 127)
+		love.graphics.setLineWidth(3)
 
 		if i < previous then
 			-- lines that we are not currently on
@@ -61,12 +61,15 @@ function love.draw()
 			renderPathTo(paths[previous], current == previous and camx:getPercentage() or 1 - camx:getPercentage())
 		end
 
-		love.graphics.setColor(255, 0, 0, k[4].value)
-			love.graphics.circle('fill', k[1], k[2], 10)
-		love.graphics.setColor(255, 255, 230, k[4].value)
-			roundedRectangle(k[1] + 15, k[2] - 16, #k[3] * 15, 32, 10, {2, 2, 2, k[4].value},
+		love.graphics.setLineWidth(1)
+		love.graphics.setColor(255, 0, 0, k[4].value * 255)
+			love.graphics.circle('fill', k[1], k[2], k[4].value * 10)
+		love.graphics.setColor(2, 2, 2, k[4].value * 255)
+			love.graphics.circle('line', k[1], k[2], k[4].value * 10, 15)
+		love.graphics.setColor(255, 255, 230, k[4].value * 255)
+			roundedRectangle(k[1] + 15, k[2] - 16, #k[3] * 15, 32, 10, {2, 2, 2, k[4].value * 255},
 				camx.value - love.graphics.getWidth() / 2, camy.value - love.graphics.getHeight() / 4)
-		love.graphics.setColor(0, 0, 0, k[4].value)
+		love.graphics.setColor(0, 0, 0, k[4].value * 255)
 			love.graphics.print(k[3], k[1] + 21, k[2] - 10)
 		love.graphics.setColor(255, 255, 255, 255)
 	end
@@ -90,7 +93,7 @@ function love.keypressed(k)
 			previous = current
 			camx:start(places[current][1])
 			camy:start(places[current][2])
-			places[current][4]:start(255)
+			places[current][4]:start(1)
 		end
 
 		if k == 'right' and current < #places then
@@ -99,7 +102,7 @@ function love.keypressed(k)
 			current = current + 1
 			camx:start(places[current][1])
 			camy:start(places[current][2])
-			places[current][4]:start(255)
+			places[current][4]:start(1)
 		end
 	end
 
@@ -138,8 +141,6 @@ function roundedRectangle(x, y, w, h, r, border, xoff, yoff)
 	local camXOff = xoff or 0
 	local camYOff = yoff or 0
 	local color = {love.graphics.getColor()}
-	local lineSize = love.graphics.getLineWidth()
-	love.graphics.setLineWidth(1)
 	love.graphics.rectangle('fill', x + r, y, w - 2 * r, h)
 	love.graphics.rectangle('fill', x, y + r, r, h - 2 * r)
 	love.graphics.rectangle('fill', x + w - r, y + r, r, h - 2 * r)
@@ -152,23 +153,22 @@ function roundedRectangle(x, y, w, h, r, border, xoff, yoff)
 	love.graphics.setScissor(x - camXOff, y - camYOff, r, r)
 		love.graphics.circle('fill', x + r, y + r, r)
 		love.graphics.setColor(border)
-		love.graphics.circle('line', x + r, y + r, r)
+		love.graphics.circle('line', x + r, y + r, r, 15)
 		love.graphics.setColor(color)
 	love.graphics.setScissor(x + w - r - camXOff, y - camYOff, r, r)
 		love.graphics.circle('fill', x + w - r, y + r, r)
 		love.graphics.setColor(border)
-		love.graphics.circle('line', x + w - r, y + r, r)
+		love.graphics.circle('line', x + w - r, y + r, r, 15)
 		love.graphics.setColor(color)
 	love.graphics.setScissor(x - camXOff, y + h - r - camYOff, r, r)
 		love.graphics.circle('fill', x + r, y + h - r, r)
 		love.graphics.setColor(border)
-		love.graphics.circle('line', x + r, y + h - r, r)
+		love.graphics.circle('line', x + r, y + h - r, r, 15)
 		love.graphics.setColor(color)
 	love.graphics.setScissor(x + w - r - camXOff, y + h - r - camYOff, r, r)
 		love.graphics.circle('fill', x + w - r, y + h - r, r)
 		love.graphics.setColor(border)
-		love.graphics.circle('line', x + w - r, y + h - r, r)
+		love.graphics.circle('line', x + w - r, y + h - r, r, 15)
 		love.graphics.setColor(color)
 	love.graphics.setScissor()
-	love.graphics.setLineWidth(lineSize)
 end
