@@ -64,7 +64,8 @@ function love.draw()
 		love.graphics.setColor(255, 0, 0, k[4].value)
 			love.graphics.circle('fill', k[1], k[2], 10)
 		love.graphics.setColor(255, 255, 230, k[4].value)
-			roundedRectangle(k[1] + 15, k[2] - 16, #k[3] * 15, 32, 10, {2, 2, 2, k[4].value})
+			roundedRectangle(k[1] + 15, k[2] - 16, #k[3] * 15, 32, 10, {2, 2, 2, k[4].value},
+				camx.value - love.graphics.getWidth() / 2, camy.value - love.graphics.getHeight() / 4)
 		love.graphics.setColor(0, 0, 0, k[4].value)
 			love.graphics.print(k[3], k[1] + 21, k[2] - 10)
 		love.graphics.setColor(255, 255, 255, 255)
@@ -73,7 +74,7 @@ function love.draw()
 	love.graphics.pop()
 
 	if debug then
-		roundedRectangle(4, 4, 56, 46, 10, {2, 2, 2, 255}, 0, 0)
+		roundedRectangle(4, 4, 56, 46, 10, {2, 2, 2, 255})
 		love.graphics.setColor(0, 0, 0, 255)
 		love.graphics.print(math.floor(camx.value - love.graphics.getWidth() / 2 + love.mouse.getX()), 6, 6)
 		love.graphics.print(math.floor(camy.value - love.graphics.getHeight() / 4 + love.mouse.getY()), 6, 26)
@@ -134,8 +135,8 @@ function renderPathTo(path, tf)
 end
 
 function roundedRectangle(x, y, w, h, r, border, xoff, yoff)
-	local camXOff = xoff or camx.value - love.graphics.getWidth() / 2
-	local camYOff = yoff or camy.value - love.graphics.getHeight() / 4
+	local camXOff = xoff or 0
+	local camYOff = yoff or 0
 	local color = {love.graphics.getColor()}
 	local lineSize = love.graphics.getLineWidth()
 	love.graphics.setLineWidth(1)
