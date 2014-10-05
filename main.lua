@@ -1,7 +1,9 @@
 require 'tween'
 
 function love.load()
-	love.graphics.setFont(love.graphics.newFont(20))
+	defaultFont = love.graphics.newFont(20)
+	quoteFont = love.graphics.newFont(15)
+	love.graphics.setFont(defaultFont)
 	
 	map = love.graphics.newImage 'map.png'
 	current = 1
@@ -34,15 +36,27 @@ function love.load()
 	}
 
 	quotes = {
-		"So clean, well-arranged, solemn a mansion pleased him; it seemed to him like a snail's shell, lighted and warmed by gas, which sufficed for both these purposes. (Page 11)",
-		"",
-		"",
-		"",
-		"",
-		"",
-		"",
-		"",
-		""
+		{
+			"So clean, well-arranged, solemn a mansion pleased him;",
+			"it seemed to him like a snail's shell, lighted and warmed",
+			"by gas, which sufficed for both these purposes. (Page 11)"
+		},{
+			""
+		},{
+			""
+		},{
+			""
+		},{
+			""
+		},{
+			""
+		},{
+			""
+		},{
+			""
+		},{
+			""
+		}
 	}
 end
 
@@ -80,6 +94,7 @@ function love.draw()
 		love.graphics.circle('line', k[1], k[2], k[4].value * 10, 15)
 		love.graphics.setColor(255, 255, 230, k[4].value * 255)
 		roundedRectangle(k[1] - #k[3] * 7.5, k[2] - 56, #k[3] * 15, 32, 10, {2, 2, 2, k[4].value * 255}, camx.value - love.graphics.getWidth() / 2, camy.value - love.graphics.getHeight() / 4, 'down')
+		drawQuote(k[1], k[2], quotes[i], {2, 2, 2, k[4].value * 255}, camx.value - love.graphics.getWidth() / 2, camy.value - love.graphics.getHeight() / 4, 'up')
 		love.graphics.setColor(0, 0, 0, k[4].value * 255)
 		love.graphics.printf(k[3], k[1] - #k[3] * 7.5, k[2] - 50, #k[3] * 15, 'center')
 		love.graphics.setColor(255, 255, 255, 255)
@@ -204,4 +219,25 @@ function roundedRectangle(x, y, w, h, r, border, xoff, yoff, quoteDir)
 		love.graphics.circle('line', x + w - r, y + h - r, r, 15)
 		love.graphics.setColor(color)
 	love.graphics.setScissor()
+end
+
+function drawQuote(x, y, quoteTable, b, ...)
+	if type(quoteTable) == 'table' then
+		local longestQuoteLength = 0
+
+		for i, v in ipairs(quoteTable) do
+			longestQuoteLength = #v > longestQuoteLength and #v or longestQuoteLength
+		end
+
+		local w = longestQuoteLength * 8
+		roundedRectangle(x - w / 2, y + 24, w, #quoteTable * 20, 10, b, ...)
+		love.graphics.setColor(b)
+		love.graphics.setFont(quoteFont)
+
+		for i, v in ipairs(quoteTable) do
+			love.graphics.printf(v, x - w / 2, y + (i - 1) * 20 + 24, w, 'center')
+		end
+		
+		love.graphics.setFont(defaultFont)
+	end
 end
