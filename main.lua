@@ -40,21 +40,21 @@ function love.load()
 			"So clean, well-arranged, solemn a mansion pleased him;",
 			"it seemed to him like a snail's shell, lighted and warmed",
 			"by gas, which sufficed for both these purposes. (Page 11)"
-		},{
+		}, {
 			""
-		},{
+		}, {
 			""
-		},{
+		}, {
 			""
-		},{
+		}, {
 			""
-		},{
+		}, {
 			""
-		},{
+		}, {
 			""
-		},{
+		}, {
 			""
-		},{
+		}, {
 			""
 		}
 	}
@@ -80,10 +80,8 @@ function love.draw()
 		love.graphics.setLineWidth(3)
 
 		if i < previous then
-			-- lines that we are not currently on
 			love.graphics.line(paths[i])
 		elseif i == current then
-			-- line that we are currently on
 			renderPathTo(paths[previous], current == previous and camx:getPercentage() or 1 - camx:getPercentage())
 		end
 
@@ -159,6 +157,11 @@ function renderPathTo(path, tf)
 
 		if #newPath > 2 then
 			love.graphics.line(newPath)
+
+			local px, py = newPath[#newPath - 1] - newPath[#newPath - 3], newPath[#newPath] - newPath[#newPath - 2]
+			local plen = math.sqrt(px^2 + py^2)
+			px, py = px * 8 / plen, py * 8 / plen
+			love.graphics.polygon('fill', newPath[#newPath - 1] + px, newPath[#newPath] + py, newPath[#newPath - 1] - px + py, newPath[#newPath] - py - px, newPath[#newPath - 1] - px - py, newPath[#newPath] - py + px)
 		end
 	end
 end
