@@ -32,6 +32,18 @@ function love.load()
 		newCurve(2375, 300, 2400, 250, 2500, 300, 2650, 280),
 		newCurve(2650, 280, 3070, 215)
 	}
+
+	quotes = {
+		"So clean, well-arranged, solemn a mansion pleased him; it seemed to him like a snail's shell, lighted and warmed by gas, which sufficed for both these purposes. (Page 11)",
+		"",
+		"",
+		"",
+		"",
+		"",
+		"",
+		"",
+		""
+	}
 end
 
 function love.update(dt)
@@ -63,14 +75,13 @@ function love.draw()
 
 		love.graphics.setLineWidth(1)
 		love.graphics.setColor(255, 0, 0, k[4].value * 255)
-			love.graphics.circle('fill', k[1], k[2], k[4].value * 10)
+		love.graphics.circle('fill', k[1], k[2], k[4].value * 10)
 		love.graphics.setColor(2, 2, 2, k[4].value * 255)
-			love.graphics.circle('line', k[1], k[2], k[4].value * 10, 15)
+		love.graphics.circle('line', k[1], k[2], k[4].value * 10, 15)
 		love.graphics.setColor(255, 255, 230, k[4].value * 255)
-			roundedRectangle(k[1] + 15, k[2] - 16, #k[3] * 15, 32, 10, {2, 2, 2, k[4].value * 255},
-				camx.value - love.graphics.getWidth() / 2, camy.value - love.graphics.getHeight() / 4)
+		roundedRectangle(k[1] + 15, k[2] - 16, #k[3] * 15, 32, 10, {2, 2, 2, k[4].value * 255}, camx.value - love.graphics.getWidth() / 2, camy.value - love.graphics.getHeight() / 4)
 		love.graphics.setColor(0, 0, 0, k[4].value * 255)
-			love.graphics.print(k[3], k[1] + 21, k[2] - 10)
+		love.graphics.printf(k[3], k[1] + 21, k[2] - 10, #k[3] * 13, 'center')
 		love.graphics.setColor(255, 255, 255, 255)
 	end
 
