@@ -79,9 +79,9 @@ function love.draw()
 		love.graphics.setColor(2, 2, 2, k[4].value * 255)
 		love.graphics.circle('line', k[1], k[2], k[4].value * 10, 15)
 		love.graphics.setColor(255, 255, 230, k[4].value * 255)
-		roundedRectangle(k[1] + 15, k[2] - 16, #k[3] * 15, 32, 10, {2, 2, 2, k[4].value * 255}, camx.value - love.graphics.getWidth() / 2, camy.value - love.graphics.getHeight() / 4)
+		roundedRectangle(k[1] - #k[3] * 7.5, k[2] - 56, #k[3] * 15, 32, 10, {2, 2, 2, k[4].value * 255}, camx.value - love.graphics.getWidth() / 2, camy.value - love.graphics.getHeight() / 4, 'down')
 		love.graphics.setColor(0, 0, 0, k[4].value * 255)
-		love.graphics.printf(k[3], k[1] + 21, k[2] - 10, #k[3] * 13, 'center')
+		love.graphics.printf(k[3], k[1] - #k[3] * 7.5, k[2] - 50, #k[3] * 15, 'center')
 		love.graphics.setColor(255, 255, 255, 255)
 	end
 
@@ -148,18 +148,40 @@ function renderPathTo(path, tf)
 	end
 end
 
-function roundedRectangle(x, y, w, h, r, border, xoff, yoff)
+function roundedRectangle(x, y, w, h, r, border, xoff, yoff, quoteDir)
 	local camXOff = xoff or 0
 	local camYOff = yoff or 0
 	local color = {love.graphics.getColor()}
 	love.graphics.rectangle('fill', x + r, y, w - 2 * r, h)
 	love.graphics.rectangle('fill', x, y + r, r, h - 2 * r)
 	love.graphics.rectangle('fill', x + w - r, y + r, r, h - 2 * r)
-	love.graphics.setColor(border)
+	
+	if quoteDir == 'up' then
+		love.graphics.polygon('fill', x + (w - r) / 2, y, x + (w + r) / 2, y, x + w / 2, y - r)
+		love.graphics.setColor(border)
+		love.graphics.line(x + r, y, x + (w - r) / 2, y)
+		love.graphics.line(x + (w + r) / 2, y, x + w - r, y)
+		love.graphics.line(x + (w - r) / 2, y, x + w / 2, y - r)
+		love.graphics.line(x + w / 2, y - r, x + (w + r) / 2, y)
+	else
+		love.graphics.setColor(border)
+		love.graphics.line(x + r, y, x + w - r, y)
+	end
+
+	if quoteDir == 'down' then
+		love.graphics.setColor(color)
+		love.graphics.polygon('fill', x + (w - r) / 2, y + h, x + (w + r) / 2, y + h, x + w / 2, y + h + r)
+		love.graphics.setColor(border)
+		love.graphics.line(x + r, y + h, x + (w - r) / 2, y + h)
+		love.graphics.line(x + (w + r) / 2, y + h, x + w - r, y + h)
+		love.graphics.line(x + (w - r) / 2, y + h, x + w / 2, y + r + h)
+		love.graphics.line(x + w / 2, y + r + h, x + (w + r) / 2, y + h)
+	else
+		love.graphics.line(x + r, y + h, x + w - r, y + h)
+	end
+
 	love.graphics.line(x, y + r, x, y + h - r)
-	love.graphics.line(x + r, y, x + w - r, y)
 	love.graphics.line(x + w, y + r, x + w, y + h - r)
-	love.graphics.line(x + r, y + h, x + w - r, y + h)
 	love.graphics.setColor(color)
 	love.graphics.setScissor(x - camXOff, y - camYOff, r, r)
 		love.graphics.circle('fill', x + r, y + r, r)
