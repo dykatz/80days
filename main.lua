@@ -4,6 +4,7 @@ function love.load()
 	defaultFont = love.graphics.newFont(20)
 	quoteFont = love.graphics.newFont(15)
 	love.graphics.setFont(defaultFont)
+	love.graphics.setLineJoin 'bevel'
 	
 	map = love.graphics.newImage 'map.png'
 	current = 1
@@ -140,7 +141,7 @@ function love.keypressed(k)
 end
 
 function newCurve(...)
-	return love.math.newBezierCurve(...):render()
+	return love.math.newBezierCurve(...):render(10)
 end
 
 function renderPathTo(path, tf)
@@ -157,11 +158,17 @@ function renderPathTo(path, tf)
 
 		if #newPath > 2 then
 			love.graphics.line(newPath)
-
+			local color = {love.graphics.getColor()}
+			love.graphics.setColor(color[1], color[2], color[3], 255)
 			local px, py = newPath[#newPath - 1] - newPath[#newPath - 3], newPath[#newPath] - newPath[#newPath - 2]
 			local plen = math.sqrt(px^2 + py^2)
 			px, py = px * 8 / plen, py * 8 / plen
 			love.graphics.polygon('fill', newPath[#newPath - 1] + px, newPath[#newPath] + py, newPath[#newPath - 1] - px + py, newPath[#newPath] - py - px, newPath[#newPath - 1] - px - py, newPath[#newPath] - py + px)
+			love.graphics.setColor(2, 2, 2, 255)
+			love.graphics.setLineWidth(1)
+			love.graphics.polygon('line', newPath[#newPath - 1] + px, newPath[#newPath] + py, newPath[#newPath - 1] - px + py, newPath[#newPath] - py - px, newPath[#newPath - 1] - px - py, newPath[#newPath] - py + px)
+			love.graphics.setLineWidth(3)
+			love.graphics.setColor(color)
 		end
 	end
 end
