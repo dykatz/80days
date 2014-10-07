@@ -38,9 +38,10 @@ function love.load()
 
 	quotes = {
 		{
-			"So clean, well-arranged, solemn a mansion pleased him;",
-			"it seemed to him like a snail's shell, lighted and warmed",
-			"by gas, which sufficed for both these purposes. (Page 11)"
+			"He talked very little, and seemed all the more mysterious for his",
+			"taciturn manner. His daily habits were quite open to observation;",
+			"but whatever he did was so exactly the same thing that he had always",
+			"done before, that the wits of the curious were fairly puzzled. (4)"
 		}, {
 			""
 		}, {
@@ -56,7 +57,11 @@ function love.load()
 		}, {
 			""
 		}, {
-			""
+			"What had he brought back from this long and weary journey?",
+			"Nothing, you say? Perhaps so; nothing but a charming woman,",
+			"who, strange as it may appear, made him the happiest of men!",
+			"Truly, would you not for less than that make the tour around",
+			"the world? (279)"
 		}
 	}
 end
@@ -73,10 +78,6 @@ function love.draw()
 	love.graphics.draw(map, map:getWidth())
 
 	for i, k in ipairs(places) do
-		if i > current then
-			break
-		end
-
 		love.graphics.setColor(255, 0, 0, 127)
 		love.graphics.setLineWidth(3)
 
@@ -232,7 +233,7 @@ function roundedRectangle(x, y, w, h, r, border, xoff, yoff, quoteDir)
 end
 
 function drawQuote(x, y, quoteTable, b, ...)
-	if type(quoteTable) == 'table' then
+	if type(quoteTable) == 'table' and type(quoteTable[1]) == 'string' and #quoteTable[1] > 0 then
 		local longestQuoteLength = 0
 
 		for i, v in ipairs(quoteTable) do
