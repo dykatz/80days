@@ -57,11 +57,15 @@ function love.load()
 			"\"Why, you are a man of heart!\" - Guide",
 			"\"Sometimes, when I have the time.\" - Fogg (80)"
 		}, {
-			""
+			"It was every day an increasing wonder to Passepartout, who read in",
+			"Aouda’s eyes the depths of her gratitude to his master. Phileas Fogg,",
+			"though brave and gallant, must be, he thought, quite heartless. (120)"
 		}, {
 			""
 		}, {
-			""
+			"\"I will come back to America to find him,\" said Phileas Fogg calmly.",
+			"\"It would not be right for an Englishman to permit himself to be",
+			"treated in that way, without retaliating.\" (188)"
 		}, {
 			""
 		}, {
