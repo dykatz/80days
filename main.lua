@@ -43,9 +43,13 @@ function love.load()
 			"but whatever he did was so exactly the same thing that he had always",
 			"done before, that the wits of the curious were fairly puzzled. (4)"
 		}, {
-			""
+			"\"But I never see your master on deck.\" - Fix",
+			"\"Never; he hasn’t the least curiosity.\" - Passepartout (50)"
 		}, {
-			""
+			"[Passepatout] began to ask himself if this bet that Mr. Fogg talked",
+			"about was not really in good earnest, and whether his fate was not",
+			"in truth forcing him, despite his love of repose, around the world in",
+			"eighty days! (58)"
 		}, {
 			""
 		}, {
