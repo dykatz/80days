@@ -51,7 +51,11 @@ function love.load()
 			"in truth forcing him, despite his love of repose, around the world in",
 			"eighty days! (58)"
 		}, {
-			""
+			"\"Save the woman, Mr. Fogg!\" - Guide",
+			"\"I have yet twelve hours to spare;",
+			"I can devote them to that.\" - Fogg",
+			"\"Why, you are a man of heart!\" - Guide",
+			"\"Sometimes, when I have the time.\" - Fogg (80)"
 		}, {
 			""
 		}, {
