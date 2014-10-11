@@ -6,6 +6,7 @@ function love.load()
 	love.graphics.setFont(defaultFont)
 	love.graphics.setLineJoin 'bevel'
 	
+	menu = tween(1, 0.5)
 	map = love.graphics.newImage 'map.png'
 	current = 1
 	previous = 1
@@ -121,26 +122,34 @@ function love.draw()
 		love.graphics.print(math.floor(camy.value - love.graphics.getHeight() / 4 + love.mouse.getY()), 6, 26)
 		love.graphics.setColor(255, 255, 255, 255)
 	end
+
+	love.graphics.setColor(0, 0, 0, menu.value * 255)
+	love.graphics.rectangle('fill', 0, 0, 1024, 768)
+	love.graphics.setColor(255, 255, 255, 255)
 end	
 
 function love.keypressed(k)
-	if not camx.moving then
-		if k == 'left' and current > 1 then
-			places[current][4]:start(0)
-			current = current - 1
-			previous = current
-			camx:start(places[current][1])
-			camy:start(places[current][2])
-			places[current][4]:start(1)
-		end
+	if menu.value == 1 and not menu.moving then
+		menu:start(0)
+	elseif not menu.moving then
+		if not camx.moving then
+			if k == 'left' and current > 1 then
+				places[current][4]:start(0)
+				current = current - 1
+				previous = current
+				camx:start(places[current][1])
+				camy:start(places[current][2])
+				places[current][4]:start(1)
+			end
 
-		if k == 'right' and current < #places then
-			places[current][4]:start(0)
-			previous = current
-			current = current + 1
-			camx:start(places[current][1])
-			camy:start(places[current][2])
-			places[current][4]:start(1)
+			if k == 'right' and current < #places then
+				places[current][4]:start(0)
+				previous = current
+				current = current + 1
+				camx:start(places[current][1])
+				camy:start(places[current][2])
+				places[current][4]:start(1)
+			end
 		end
 	end
 
