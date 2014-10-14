@@ -157,8 +157,34 @@ function love.keypressed(k)
 		love.event.quit()
 	end
 
+	if k == '1' then
+		love.window.setFullscreen(true)
+	end
+
 	if k == '`' then
 		debug = not debug
+	end
+end
+
+function love.mousepressed(x, y, k)
+	if menu.value ~= 1 and not menu.moving and not camx.moving then
+		if k == 'r' and current > 1 then
+			places[current][4]:start(0)
+			current = current - 1
+			previous = current
+			camx:start(places[current][1])
+			camy:start(places[current][2])
+			places[current][4]:start(1)
+		end
+
+		if k == 'l' and current < #places then
+			places[current][4]:start(0)
+			previous = current
+			current = current + 1
+			camx:start(places[current][1])
+			camy:start(places[current][2])
+			places[current][4]:start(1)
+		end
 	end
 end
 
